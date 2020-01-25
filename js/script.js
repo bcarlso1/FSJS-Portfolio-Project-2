@@ -44,7 +44,7 @@ function appendPageLinks(list1) {
             pageButton.appendChild(pageButtonLink);
             document.getElementsByClassName('pagination')[0].firstElementChild.appendChild(pageButton);
             count++;
-            console.log(i);
+          //  console.log(i);
          }
    }
 
@@ -68,45 +68,17 @@ function removeActive() {
 EVENT LISTENER FOR PAGES
 ******************** */
 
-// NEED to make this dynamic ***************
+var numLinks = document.getElementsByTagName('a');
 
-
-document.getElementsByTagName('a')[0].addEventListener("click", (e) => {
-   pageDisplay(1);
+for (var i = 0; i < numLinks.length; i++) {
+let counter = i+1;
+document.getElementsByTagName('a')[i].addEventListener("click", (e) => {
+   pageDisplay(counter);
    removeActive();
    event.target.classList.add("active");
 }
 );
-document.getElementsByTagName('a')[1].addEventListener("click", (e) => {
-   pageDisplay(2);
-   removeActive();
-   event.target.classList.add("active");
 }
-);
-document.getElementsByTagName('a')[2].addEventListener("click", (e) => {
-   pageDisplay(3);
-   removeActive();
-   event.target.classList.add("active");
-}
-);
-document.getElementsByTagName('a')[3].addEventListener("click", (e) => {
-   pageDisplay(4);
-   removeActive();
-   event.target.classList.add("active");
-}
-);
-document.getElementsByTagName('a')[4].addEventListener("click", (e) => {
-   pageDisplay(5);
-   removeActive();
-   event.target.classList.add("active");
-}
-);
-document.getElementsByTagName('a')[5].addEventListener("click", (e) => {
-   pageDisplay(6);
-   removeActive();
-   event.target.classList.add("active");
-}
-);
 
 
 /* *************************
@@ -156,9 +128,6 @@ function myFunction() {
 }
 }
 ;
-
-
-
 
 /*Pro Tip: 
 Each LI element should contain an A element with an href attribute of #, 
