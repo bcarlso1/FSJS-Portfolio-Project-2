@@ -125,6 +125,14 @@ function myFunction() {
    for (var i = 0; i < students.length; i += 1) {
      foundStudentsArray[i].style.display = "block";
    } 
+// fix here to display results properly on different pages
+// *************************
 
+   if (foundStudentsArray.length == 0) {
+      alert('hey');
+      var noResults = document.createElement('div');
+      noResults.innerHTML = "No results";
+      document.getElementById('list').appendChild(noResults);
+   }
 };
 
