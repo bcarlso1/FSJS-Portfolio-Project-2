@@ -6,9 +6,9 @@ let numberPerPage = 10;
 PAGE DISPLAY FUNCTION
 ********************/
 
-const list = document.querySelectorAll(".student-item");
+const defaultList = document.querySelectorAll(".student-item");
 
-function pageDisplay(page) {
+function pageDisplay(page, list) {
    var start = (page*10)-10;
    var end = page*10;
    for (var i = 0; i < list.length; i++) {
@@ -25,8 +25,8 @@ function pageDisplay(page) {
 /*********************** 
   APPEND PAGE FUNCTION
 **********************/
-function appendPageLinks(list1) {
-   pageDisplay(1);
+function appendPageLinks(page, list) {
+   pageDisplay(page, list);
    pageButton = document.createElement('div');
    pageButton.classList.add('pagination');
    newUL = document.createElement('ul');
@@ -51,7 +51,7 @@ function appendPageLinks(list1) {
 }
 
 
-window.onload = appendPageLinks();
+window.onload = appendPageLinks(1, defaultList);
 
 /* ******************
 Remove Active Class Fxn for Event Listener
@@ -73,7 +73,7 @@ var numLinks = document.getElementsByTagName('a');
 for (var i = 0; i < numLinks.length; i++) {
 let counter = i+1;
 document.getElementsByTagName('a')[i].addEventListener("click", (e) => {
-   pageDisplay(counter);
+   pageDisplay(counter, defaultList);
    removeActive();
    event.target.classList.add("active");
 }
@@ -102,7 +102,8 @@ AUTOCOMPLETE SEARCH
 ************** */
 
 const searchBar = document.getElementsByTagName("input")[0];
-var students = document.getElementsByClassName('student-item');
+var students = document.getElementsByTagName("h3");
+var studentsContainer = document.getElementsByClassName('student-item');
 var searchClick = document.getElementsByTagName('button')[0];
 
 searchClick.addEventListener('onclick', myFunction);
@@ -111,26 +112,19 @@ searchBar.addEventListener('keyup', myFunction);
 function myFunction() {
     searchBar.value = searchBar.value.toLowerCase();
     var mySearch = searchBar.value;
-    console.log(mySearch);
-    // var tally = 0;
+    var foundStudentsArray = [];
+    // console.log(mySearch);
     for (var i = 0; i < students.length; i += 1) {
         var title = students[i].innerHTML.toLowerCase();
-        console.log(title);
+        // console.log(title);
+        studentsContainer[i].style.display = "none";
         if (title.includes(mySearch)) {
-       //  tally++;
-         students[i].style.display = "";
-         } else {
-         students[i].style.display = "none";
-          }      
-         // if (tally == 0) {
-        //     alert('no results');
-      //    }
-}
-}
-;
+         foundStudentsArray.push(studentsContainer[i]);      
+         }
+   }
+   for (var i = 0; i < students.length; i += 1) {
+     foundStudentsArray[i].style.display = "block";
+   } 
 
-/*Pro Tip: 
-Each LI element should contain an A element with an href attribute of #, 
-and text set to the page number each link will show. First link is 1. 
-Second link is 2. And so on.*/
+};
 
