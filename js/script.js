@@ -1,7 +1,3 @@
-const items = document.querySelectorAll('.student-item');
-
-let numberPerPage = 10;
-
 /***************** 
 PAGE DISPLAY FUNCTION
 ********************/
@@ -42,9 +38,9 @@ function appendPageLinks(list) {
    pageButton.classList.add('pagination');
    newUL = document.createElement('ul');
    pageButton.appendChild(newUL);
-   document.getElementById('list').insertAdjacentElement('afterend', pageButton);
+   document.getElementsByClassName('student-list')[0].insertAdjacentElement('afterend', pageButton);
 
-   // set up the number of page links dependent on the list lenth
+   // set up the number of page links dependent on the list length
    let count = 1;
    for (var i = 0; i < list.length; i++) {
          if ((i-1) % 10 == 0) {
@@ -58,6 +54,7 @@ function appendPageLinks(list) {
           //  console.log(i);
          }
    }
+   // set up event listener based on chosen student list
    eventListen(list);
 
 }
@@ -86,6 +83,7 @@ var numLinks = document.getElementsByTagName('a');
 for (var i = 0; i < numLinks.length; i++) {
 let counter = i+1;
 document.getElementsByTagName('a')[i].addEventListener("click", (e) => {
+   // show page clicked, w/in the particular list (default or search matches)
    pageDisplay(counter, list);
    removeActive();
    event.target.classList.add("active");
@@ -120,46 +118,51 @@ var students = document.getElementsByTagName("h3");
 var studentsContainer = document.getElementsByClassName('student-item');
 var searchClick = document.getElementsByTagName('button')[0];
 
-searchClick.addEventListener('onclick', myFunction);
-searchBar.addEventListener('keyup', myFunction);
+// set up function to run when search used
+searchClick.addEventListener('onclick', searchMe);
+searchBar.addEventListener('keyup', searchMe);
 
-function myFunction() {
+function searchMe() {
     searchBar.value = searchBar.value.toLowerCase();
     var mySearch = searchBar.value;
+    // create empty array to store matches
     var foundStudentsArray = [];
     // console.log(mySearch);
+    // go through student names list looking for matches
     for (var i = 0; i < students.length; i += 1) {
         var title = students[i].innerHTML.toLowerCase();
         // console.log(title);
+        // hide all students
         studentsContainer[i].style.display = "none";
+         // if match, add to array       
         if (title.includes(mySearch)) {
          foundStudentsArray.push(studentsContainer[i]);      
          }
    }
+   // set all items in array to show
    for (var i = 0; i < foundStudentsArray.length; i += 1) {
      foundStudentsArray[i].style.display = "block";
    } 
-// fix here to display results properly on different pages
-// Pagination links display based on how many search results are returned. For example: if 10 or fewer results are returned, 0 or 1 pagination links are displayed. If 22 search results are returned, 3 pagination links are displayed.
-// add few more code comments explaining
-// *************************
+
+// display "no results" if none...
    var noResultsNow = document.getElementById('no-results');
   // if no results but not first time
    if (foundStudentsArray.length == 0 && document.body.contains(noResultsNow)) {
       noResultsNow.innerHTML = "No results";  
-   // if no results but IS first time
+   // if no results but IS first time - add text
    } else if (foundStudentsArray.length == 0 ) {
       var noResults = document.createElement('div');
       noResults.innerHTML = "No results";
       noResults.setAttribute("id", "no-results");
-      document.getElementById('list').appendChild(noResults);
+      document.getElementsByClassName('student-list')[0].appendChild(noResults);
    // if array is NOT 0
    } else {
-   // if array is not 0 but it USED TO BE
+   // if array is not 0 but it USED TO BE (clear text)
       if (document.body.contains(noResultsNow)) {
       noResultsNow.innerHTML = "";
       }
    }
+   // put together pages and buttons based on array
  appendPageLinks(foundStudentsArray);
 };
 
